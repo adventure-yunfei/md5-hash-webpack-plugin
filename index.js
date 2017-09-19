@@ -28,6 +28,11 @@ function chunkIdSource(chunk) {
     return '@' + (chunk.ids ? chunk.ids.join(',') : chunk.id) + '@';
 }
 
+function mapModules(chunk, fn) {
+    // compatitable with webpack 1-3
+    return chunk.mapModules ? chunk.mapModules(fn) : chunk.modules.map(fn);
+}
+
 function MD5HashPlugin () {
 
 }
@@ -35,7 +40,7 @@ function MD5HashPlugin () {
 MD5HashPlugin.prototype.apply = function(compiler) {
     compiler.plugin("compilation", function(compilation) {
         compilation.plugin("chunk-hash", function(chunk, chunkHash) {
-            var source = chunkIdSource(chunk) + chunk.modules.map(getModuleSource).sort(compareModules).reduce(concatenateSource, ''); // we provide an initialValue in case there is an empty module source. Ref: http://es5.github.io/#x15.4.4.21
+            var source = chunkIdSource(chunk) + mapModules(chunk, getModuleSource).sort(compareModules).reduce(concatenateSource, ''); // we provide an initialValue in case there is an empty module source. Ref: http://es5.github.io/#x15.4.4.21
             var chunk_hash = md5(source);
             chunkHash.digest = function () {
                 return chunk_hash;

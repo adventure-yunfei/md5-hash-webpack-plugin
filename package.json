@@ -1,6 +1,6 @@
 {
   "name": "md5-hash-webpack-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Plugin to replace a standard webpack chunkhash with md5.",
   "main": "index.js",
   "files": [

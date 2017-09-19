@@ -3,7 +3,8 @@
 var path = require('path'),
     rimraf = require('rimraf'),
     webpack = require('webpack'),
-    fs = require('fs');
+    fs = require('fs'),
+    MD5Plugin = require('../index');
 
 var OUTPUT_DIR = path.join(__dirname, '../dist'),
     FIXTURES = path.join(__dirname, './fixtures');
@@ -59,6 +60,27 @@ describe('WebpackMd5Hash', function () {
                 expect(outputDir.length).toEqual(2);
                 done();
             });
+        });
+    });
+
+    it('Compile with plugin', function (done) {
+        webpack({
+            entry: {
+                entry: path.join(FIXTURES, 'entry.js')
+            },
+            output: {
+                path: OUTPUT_DIR,
+                filename: '[name]-bundle.js',
+                chunkFilename: '[chunkhash].[id].chunk.js'
+            },
+            plugins: [ new MD5Plugin() ]
+        }, function (err, stats) {
+            expect(err).toBeFalsy();
+            expect(stats.compilation.errors).toEqual([]);
+            expect(stats.compilation.warnings).toEqual([]);
+            var outputDir = fs.readdirSync(OUTPUT_DIR);
+            expect(outputDir.length).toEqual(2);
+            done();
         });
     });
 });

@@ -32,7 +32,7 @@ module.exports = {
         new MD5HashPlugin(),
         
         // extract standalone webpack runtime, as this chunk hash is not well-handled (see last of README)
-        new CommonsChunkPlugin({
+        new webpack.optimize.CommonsChunkPlugin({
             name: 'webpack-runtime',
             filename: '[name].js',
             minChunks: Infinity
@@ -295,7 +295,7 @@ The webpack runtime can be simply extracted by a new empty chunk:
 ```javascript
 {
    plugins: [
-     new CommonsChunkPlugin({name: 'webpack-runtime', minChunks: Infinity }) // make sure it's the last chunk
+     new webpack.optimize.CommonsChunkPlugin({name: 'webpack-runtime', minChunks: Infinity }) // make sure it's the last chunk
    ]
 }
 ```

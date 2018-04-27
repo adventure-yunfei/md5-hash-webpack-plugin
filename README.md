@@ -29,7 +29,14 @@ module.exports = {
         chunkFilename: "[chunkhash].[id].chunk.js"
     },
     plugins: [
-        new MD5HashPlugin()
+        new MD5HashPlugin(),
+        
+        // extract standalone webpack runtime, as this chunk hash is not well-handled (see last of README)
+        new CommonsChunkPlugin({
+            name: 'webpack-runtime',
+            filename: '[name].js',
+            minChunks: Infinity
+        })
     ]
 };
 

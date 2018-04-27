@@ -284,5 +284,13 @@ This implementation calculates chunk hash based on:
 But, without webpack bootstrap runtime (it only exists for the entry chunk when multiple chunks exist).
 
 To solve this, you should make a standalone webpack bootstrap runtime with empty modules (or you could just extract only the changable filename map which may be called manifest), and inline it into final html output.
+The webpack runtime can be simply extracted by a new empty chunk:
+```javascript
+{
+   plugins: [
+     new CommonsChunkPlugin({name: 'webpack-runtime', minChunks: Infinity }) // make sure it's the last chunk
+   ]
+}
+```
 
 Anyway, we now get a more correct md5 chunk hash.

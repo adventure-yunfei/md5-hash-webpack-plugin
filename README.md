@@ -33,7 +33,7 @@ module.exports = {
         
         // extract standalone webpack runtime, as this chunk hash is not well-handled (see last of README)
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'webpack-runtime',
+            name: 'webpack-runtime.' + Date.now(), // always output runtime chunk as different file name
             filename: '[name].js',
             minChunks: Infinity
         })
